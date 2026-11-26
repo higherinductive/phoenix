@@ -8,6 +8,7 @@ version = "0.1.0"
 dependencies = [
  "phoenix-ast",
  "phoenix-parser",
+ "phoenix-type",
 ]
 
 [[package]]
@@ -19,4 +20,12 @@ name = "phoenix-parser"
 version = "0.1.0"
 dependencies = [
  "phoenix-ast",
+]
+
+[[package]]
+name = "phoenix-type"
+version = "0.1.0"
+dependencies = [
+ "phoenix-ast",
+ "phoenix-parser",
 ]
