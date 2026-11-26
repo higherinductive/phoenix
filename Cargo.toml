@@ -1,0 +1,12 @@
+[package]
+name = "phoenix"
+version = "0.1.0"
+edition = "2024"
+
+[workspace]
+members = [ "crates/*" ]
+resolver = "2"
+
+[dependencies]
+phoenix-ast = { path = "crates/phoenix-ast" }
+phoenix-parser = { path = "crates/phoenix-parser" }
