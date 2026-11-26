@@ -1,31 +1,35 @@
 use std::process::ExitCode;
 
-/// Usage: `phoenix [file]` (reads standard input when no argument is given).
-/// Prints the parsed expression, then its AST.
+/// Usage: `phoenix <file>`.
+/// Prints the typed AST of the expression, then its type.
 fn main() -> ExitCode {
-    let src = match std::env::args().nth(1) {
-        Some(path) => match std::fs::read_to_string(&path) {
-            Ok(src) => src,
-            Err(err) => {
-                eprintln!("Cannot read file `{path}`: {err}");
-                return ExitCode::FAILURE;
-            }
-        },
-        None => {
-            eprintln!("No input file specified");
+    let Some(src) = std::env::args().nth(1) else {
+        eprintln!("No input file specified");
+        return ExitCode::FAILURE;
+    };
+
+    let Ok(src) = std::fs::read_to_string(&src) else {
+        eprintln!("Cannot read file `{src}`");
+        return ExitCode::FAILURE;
+    };
+
+    let expr = match phoenix_parser::parse_expr(&src) {
+        Ok(expr) => expr,
+        Err(err) => {
+            eprint!("{}", err.render(&src));
             return ExitCode::FAILURE;
         }
     };
 
-    match phoenix_parser::parse_expr(&src) {
-        Ok(expr) => {
-            println!("{expr}");
-            println!("{expr:#?}");
-            ExitCode::SUCCESS
-        }
+    let typed = match phoenix_type::typecheck_expr(&expr) {
+        Ok(typed) => typed,
         Err(err) => {
-            eprint!("{}", err.render(&src));
-            ExitCode::FAILURE
+            eprintln!("Type error: {err}");
+            return ExitCode::FAILURE;
         }
-    }
+    };
+
+    println!("{typed}");
+    println!(": {}", typed.ty);
+    ExitCode::SUCCESS
 }
