@@ -1,0 +1,10 @@
+[package]
+name = "phoenix-anf"
+version = "0.1.0"
+edition = "2024"
+
+[dependencies]
+phoenix-type = { path = "../phoenix-type" }
+
+[dev-dependencies]
+phoenix-parser = { path = "../phoenix-parser" }
