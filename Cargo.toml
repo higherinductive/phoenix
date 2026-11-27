@@ -11,3 +11,5 @@ resolver = "2"
 phoenix-ast = { path = "crates/phoenix-ast" }
 phoenix-parser = { path = "crates/phoenix-parser" }
 phoenix-type = { path = "crates/phoenix-type" }
+phoenix-anf = { path = "crates/phoenix-anf" }
+phoenix-closure = { path = "crates/phoenix-closure" }
