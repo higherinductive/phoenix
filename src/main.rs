@@ -29,7 +29,9 @@ fn main() -> ExitCode {
         }
     };
 
-    println!("{typed}");
-    println!(": {}", typed.ty);
+    let anf = phoenix_anf::to_anf(&typed);
+    let closure_converted = phoenix_closure::closure_convert(anf);
+
+    println!("{closure_converted}");
     ExitCode::SUCCESS
 }
